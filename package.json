@@ -1,0 +1,19 @@
+{
+  "name": "hogget",
+  "version": "0.1.0-dev",
+  "description": "Compiler, linter and formatter for the Hogget programming language",
+  "homepage": "https://hogget.org/",
+  "repository": "github:hogget-language/compiler",
+  "main": "index.js",
+  "bin": "./cli.js",
+  "scripts": {
+    "test": "node ./test"
+  },
+  "keywords": [
+    "hogget",
+    "programming-language",
+    "functional-programming"
+  ],
+  "author": "Bran van der Meer",
+  "license": "ISC"
+}
