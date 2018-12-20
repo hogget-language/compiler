@@ -21,7 +21,7 @@ module.exports = function generator(node) {
       return node.value
 
     case 'StrLiteral':
-      return '"' + node.value + '"'
+      return "'" + node.value + "'"
 
     default:
       throw new Error('Unknown AST node type: ' + node.type)

@@ -27,7 +27,7 @@ To run programatically from Node.js:
 
 ```js
 import hogget from 'hogget'
-const hoggetString = "log('the answer is' add(12 30))"
+const hoggetString = "log('the answer is ' add(12 30))"
 console.log(hogget(hoggetString))
 ```
 
@@ -45,7 +45,7 @@ To run programatically from Node.js:
 
 ```js
 import { execute } from 'hogget'
-const hoggetString = "log('the answer is' add(12 30))"
+const hoggetString = "log('the answer is ' add(12 30))"
 execute(hoggetString)
 ```
 
