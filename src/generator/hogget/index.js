@@ -1,16 +1,33 @@
-module.exports = function generator(node) {
+'use strict'
+
+module.exports = {
+  generator: generator,
+  postprocessor: postprocessor
+}
+
+function generator(generator, context, node) {
   switch (node.type) {
     case 'Program':
-      return node.body.map(generator).join('\n') + '\n'
+      return (
+        node.body
+          .map(function(node) {
+            return generator(generator, context, node)
+          })
+          .join('\n') + '\n'
+      )
 
     case 'ExpressionStatement':
-      return generator(node.expression) + ';\n'
+      return generator(generator, context, node.expression) + ';\n'
 
     case 'CallExpression':
       return (
-        generator(node.callee) +
+        generator(generator, context, node.callee) +
         '(' +
-        node.arguments.map(generator).join(' ') +
+        node.arguments
+          .map(function(node) {
+            return generator(generator, context, node)
+          })
+          .join(' ') +
         ')'
       )
 
@@ -26,4 +43,8 @@ module.exports = function generator(node) {
     default:
       throw new Error('Unknown AST node type: ' + node.type)
   }
+}
+
+function postprocessor(context, str) {
+  return str
 }

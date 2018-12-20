@@ -70,7 +70,7 @@ console.log(lint(hoggetString))
 To run from the terminal, either the `--format` or `-f` option must be used:
 
 ```sh
-hogget --format --input program.hgg
+hogget --format --input program.hgg --output program.hgg
 ```
 
 To run programatically from Node.js:
