@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 'use strict'
 
 var hogget = require('./index')
@@ -7,6 +9,11 @@ var EOL = require('os').EOL
 var argv = process.argv
 var log = function(str) {
   return process.stdout.write(str + EOL)
+}
+
+if (hasArg(argv, ['--version', '-v'])) {
+  log(pkg.version)
+  process.exit()
 }
 
 // Print name and version
