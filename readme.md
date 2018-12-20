@@ -1,5 +1,7 @@
 # Hogget compiler
 
+[![Build Status](https://travis-ci.org/hogget-language/compiler.svg?branch=master)](https://travis-ci.org/hogget-language/compiler)
+
 ## Installation
 
 Requires Node.js v10 or higher. This package has no dependencies.
