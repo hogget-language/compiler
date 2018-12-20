@@ -5,13 +5,21 @@ var parser = require('./src/parser')
 var linter = require('./src/linter')
 var transformer = require('./src/transformer')
 var generator = require('./src/generator')
+var executor = require('./src/executor')
 
 module.exports = {
   default: compile,
   compile: compile,
+  execute: executor,
   parse: parse,
   lint: lint,
   format: format
+}
+
+function parse(input) {
+  var tokens = lexer(input)
+  var ast = parser(tokens)
+  return ast
 }
 
 function compile(input) {
@@ -19,12 +27,6 @@ function compile(input) {
   var newAst = transformer('javascript', ast)
   var output = generator('javascript', newAst)
   return output
-}
-
-function parse(input) {
-  var tokens = lexer(input)
-  var ast = parser(tokens)
-  return ast
 }
 
 function lint(input) {

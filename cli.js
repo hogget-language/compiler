@@ -21,7 +21,12 @@ log('Hogget, version ' + pkg.version)
 
 // Determine mode
 var mode = 'compile'
-if (hasArg(argv, ['--lint', '-l']) && !hasArg(argv, ['--format', '-f'])) {
+if (hasArg(argv, ['--execute', '-e'])) {
+  mode = 'execute'
+} else if (
+  hasArg(argv, ['--lint', '-l']) &&
+  !hasArg(argv, ['--format', '-f'])
+) {
   mode = 'lint'
 } else if (
   hasArg(argv, ['--format', '-f']) &&
@@ -52,6 +57,16 @@ switch (mode) {
     fs.writeFileSync(outputArg, output)
     log(' done')
     process.exit()
+
+  case 'execute':
+    log(' compiling: ' + inputArg)
+    var output = hogget.compile(input)
+    log(' executing as child process')
+    var node = hogget.execute(output)
+    node.on('exit', function(code) {
+      process.exit(code)
+    })
+    break
 
   case 'lint':
     log(' linting: ' + inputArg)

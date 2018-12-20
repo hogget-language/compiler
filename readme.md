@@ -33,6 +33,22 @@ console.log(hogget(hoggetString))
 
 The [hogget](https://www.npmjs.com/package/hogget) package also exports a `parse` and an `execute` method.
 
+## Interpreter mode: compile + execute
+
+To run from the terminal, either the `--execute` or `-e` option must be used:
+
+```sh
+hogget --execute --input program.hgg
+```
+
+To run programatically from Node.js:
+
+```js
+import { execute } from 'hogget'
+const hoggetString = "log('the answer is' add(12 30))"
+execute(hoggetString)
+```
+
 ## Linting
 
 To run from the terminal, either the `--lint` or `-l` option must be used:
