@@ -46,12 +46,12 @@ module.exports = function lexer(input) {
       continue
     }
 
-    if (char === '"') {
+    if (char === "'") {
       var value = ''
 
       char = input[++current]
 
-      while (char !== '"') {
+      while (char !== "'") {
         value += char
         char = input[++current]
       }

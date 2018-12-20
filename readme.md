@@ -6,6 +6,7 @@ Requires Node.js v10 or higher. This package has no dependencies.
 
 ```sh
 npm install hogget --global
+hogget --version
 ```
 
 ## Compiling
@@ -26,11 +27,11 @@ To run programatically from Node.js:
 
 ```js
 import hogget from 'hogget'
-const hoggetString = 'log("the answer is" add(12 30))'
+const hoggetString = "log('the answer is' add(12 30))"
 console.log(hogget(hoggetString))
 ```
 
-The [hogget](https://www.npmjs.com/package/hogget) package also exports a `parse` method.
+The [hogget](https://www.npmjs.com/package/hogget) package also exports a `parse` and an `execute` method.
 
 ## Linting
 
@@ -44,8 +45,7 @@ To run programatically from Node.js:
 
 ```js
 import { lint } from 'hogget'
-const hoggetString =
-  'let myAdd = (a, b) => { let result = add(a, b); result; };'
+const hoggetString = 'let myAdd = (a b) => { let result = add(a b); result; };'
 console.log(lint(hoggetString))
 ```
 
@@ -55,4 +55,12 @@ To run from the terminal, either the `--format` or `-f` option must be used:
 
 ```sh
 hogget --format --input program.hgg
+```
+
+To run programatically from Node.js:
+
+```js
+import { format } from 'hogget'
+const hoggetString = 'let myAdd = (a b) => { let result = add(a b); result; };'
+console.log(format(hoggetString))
 ```
