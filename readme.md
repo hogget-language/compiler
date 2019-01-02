@@ -4,7 +4,7 @@
 
 ## Installation
 
-Requires Node.js v10 or higher. This package has no dependencies.
+Requires Node.js v4 or higher. This package has no dependencies.
 
 ```sh
 npm install hogget --global
