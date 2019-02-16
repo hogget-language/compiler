@@ -5,15 +5,22 @@
   "homepage": "https://hogget.org/",
   "repository": "github:hogget-language/compiler",
   "main": "index.js",
-  "bin": "./cli.js",
+  "bin": {
+    "hgg": "./cli.js"
+  },
   "scripts": {
     "test": "node ./test"
   },
   "keywords": [
+    "hgg",
     "hogget",
     "programming-language",
     "functional-programming"
   ],
   "author": "Bran van der Meer",
-  "license": "ISC"
+  "license": "ISC",
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
 }

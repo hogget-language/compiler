@@ -2,7 +2,7 @@
 
 var child_process = require('child_process')
 
-module.exports = function executor(code) {
+module.exports = function evaluator(code) {
   // Spawn new Node.js process
   var options = { stdio: [null, 1, 2] }
   var node = child_process.spawn(process.execPath, [], options)

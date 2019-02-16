@@ -8,7 +8,7 @@ Requires Node.js v4 or higher. This package has no dependencies.
 
 ```sh
 npm install hogget --global
-hogget --version
+hgg --version
 ```
 
 ## Compiling
@@ -16,13 +16,13 @@ hogget --version
 The Hogget compiler needs an input and output to run. To run from the terminal:
 
 ```sh
-hogget --input program.hgg --output program.hgg.js
+hgg --input program.hgg --output program.hgg.js
 ```
 
 or, more concisely:
 
 ```sh
-hogget -i program.hgg -o program.hgg.js
+hgg -i program.hgg -o program.hgg.js
 ```
 
 To run programatically from Node.js:
@@ -35,12 +35,12 @@ console.log(hogget(hoggetString))
 
 The [hogget](https://www.npmjs.com/package/hogget) package also exports a `parse` and an `execute` method.
 
-## Interpreter mode: compile + execute
+## Interpreter mode: compile + evaluate
 
-To run from the terminal, either the `--execute` or `-e` option must be used:
+To run from the terminal, either the `--evaluate` or `-e` option must be used:
 
 ```sh
-hogget --execute --input program.hgg
+hgg --evaluate --input program.hgg
 ```
 
 To run programatically from Node.js:
@@ -56,7 +56,7 @@ execute(hoggetString)
 To run from the terminal, either the `--lint` or `-l` option must be used:
 
 ```sh
-hogget --lint --input program.hgg
+hgg --lint --input program.hgg
 ```
 
 To run programatically from Node.js:
@@ -72,7 +72,7 @@ console.log(lint(hoggetString))
 To run from the terminal, either the `--format` or `-f` option must be used:
 
 ```sh
-hogget --format --input program.hgg --output program.hgg
+hgg --format --input program.hgg --output program.hgg
 ```
 
 To run programatically from Node.js:

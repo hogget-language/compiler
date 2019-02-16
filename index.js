@@ -5,12 +5,12 @@ var parser = require('./src/parser')
 var linter = require('./src/linter')
 var transformer = require('./src/transformer')
 var generator = require('./src/generator')
-var executor = require('./src/executor')
+var evaluator = require('./src/evaluator')
 
 module.exports = {
   default: compile,
   compile: compile,
-  execute: executor,
+  evaluate: evaluate,
   parse: parse,
   lint: lint,
   format: format
@@ -27,6 +27,12 @@ function compile(input) {
   var newAst = transformer('javascript', ast)
   var output = generator('javascript', newAst)
   return output
+}
+
+function evaluate(input) {
+  var output = compile(input)
+  var node = evaluator(output)
+  return node
 }
 
 function lint(input) {

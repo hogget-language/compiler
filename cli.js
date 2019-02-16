@@ -21,8 +21,8 @@ log('Hogget, version ' + pkg.version)
 
 // Determine mode
 var mode = 'compile'
-if (hasArg(argv, ['--execute', '-e'])) {
-  mode = 'execute'
+if (hasArg(argv, ['--evaluate', '-e'])) {
+  mode = 'evaluate'
 } else if (
   hasArg(argv, ['--lint', '-l']) &&
   !hasArg(argv, ['--format', '-f'])
@@ -58,11 +58,9 @@ switch (mode) {
     log(' done')
     process.exit()
 
-  case 'execute':
-    log(' compiling: ' + inputArg)
-    var output = hogget.compile(input)
-    log(' executing as child process')
-    var node = hogget.execute(output)
+  case 'evaluate':
+    log(' evaluating as child process')
+    var node = hogget.evaluate(input)
     node.on('exit', function(code) {
       process.exit(code)
     })
