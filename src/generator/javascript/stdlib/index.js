@@ -18,17 +18,17 @@ fs.readdirSync(__dirname).forEach(function(file) {
 })
 
 function isStdlib(node) {
-  return node.type === 'Identifier' && stdlib[node.name]
+  return node.type === 'Identifier' && stdlib[node.value]
 }
 
 function validator(node) {
-  if (stdlib[node.callee.name].validator) {
-    return stdlib[node.callee.name].validator(node)
+  if (stdlib[node.callee.value].validator) {
+    return stdlib[node.callee.value].validator(node)
   }
 }
 
 function generator(generator, context, node) {
-  return stdlib[node.name].generator(generator, context, node)
+  return stdlib[node.value].generator(generator, context, node)
 }
 
 function context(identifier) {
