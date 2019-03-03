@@ -37,7 +37,7 @@ describe('Parser', it => {
           type: 'CallExpression',
           callee: {
             type: 'Identifier',
-            name: 'add'
+            value: 'add'
           },
           arguments: [
             { type: 'NumberLiteral', value: 12 },
