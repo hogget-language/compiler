@@ -100,7 +100,7 @@ switch (mode) {
  */
 function hasArg(argv, searchArgs) {
   for (var i = 0; i < argv.length; i++) {
-    if (searchArgs.includes(argv[i])) {
+    if (searchArgs.indexOf(argv[i]) !== -1) {
       return true
     }
   }
@@ -115,7 +115,7 @@ function hasArg(argv, searchArgs) {
 function getArgValue(argv, searchArgs) {
   var position = false
   for (var i = 0; i < argv.length; i++) {
-    if (searchArgs.includes(argv[i])) {
+    if (searchArgs.indexOf(argv[i]) !== -1) {
       position = i
       break
     }

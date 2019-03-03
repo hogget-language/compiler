@@ -1,7 +1,7 @@
 'use strict'
 
 process.cwd(`${__dirname}/../`)
-const { recursiveScanDir } = require('../src/util/fs')
+const recursiveScanDir = require('../src/util/fs').recursiveScanDir
 
 module.exports = { run }
 
@@ -11,7 +11,8 @@ function run(dir, ext) {
 }
 
 function runSuites(suites) {
-  Object.values(suites).forEach(suite => {
+  Object.keys(suites).forEach(key => {
+    const suite = suites[key]
     suite.tests.forEach(test => {
       try {
         test.run()
@@ -28,8 +29,9 @@ function report(suites) {
   let testCount = 0
   let errorCount = 0
 
-  log('Report:')
-  Object.values(suites).forEach(suite => {
+  log('Report')
+  Object.keys(suites).forEach(key => {
+    const suite = suites[key]
     log(`\n  ${suite.name}`)
     suite.tests.forEach(test => {
       testCount++
@@ -43,12 +45,17 @@ function report(suites) {
 
   if (!errorCount) return
   log('\n\nError report')
-  Object.values(suites).forEach(suite => {
+  Object.keys(suites).forEach(key => {
+    const suite = suites[key]
     log(`\n  ${suite.name}\n`)
     suite.tests.forEach(test => {
       if (!test.err) return
       log(red(test.name), 4)
-      log(test.err + '\n', 6)
+      if (test.err.stack) {
+        log(test.err.stack + '\n', 6)
+      } else {
+        log(test.err + '\n', 6)
+      }
     })
   })
 
@@ -121,6 +128,7 @@ function indent(str, len) {
   return ind + str.replace(/\n/g, '\n' + ind)
 }
 
-function log(str, len = 0) {
+function log(str, len) {
+  len = typeof len === 'number' ? len : 0
   process.stdout.write(indent(String(str), len) + '\n')
 }
