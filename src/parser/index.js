@@ -6,15 +6,33 @@ module.exports = function parser(tokens) {
   function walk() {
     var token = tokens[current]
 
-    if (token.type === 'int') {
+    /**
+     * Name
+     */
+    if (token.type === 'name') {
       current++
 
       return {
-        type: 'IntLiteral',
+        type: 'Identifier',
         value: token.value
       }
     }
 
+    /**
+     * Numbers
+     */
+    if (token.type === 'num') {
+      current++
+
+      return {
+        type: 'NumberLiteral',
+        value: parseFloat(token.value, 10)
+      }
+    }
+
+    /**
+     * Strings
+     */
     if (token.type === 'str') {
       current++
 
@@ -24,18 +42,46 @@ module.exports = function parser(tokens) {
       }
     }
 
+    /**
+     * Arrays
+     */
+    var nextToken = tokens[current + 1]
+    if (token.type === 'bracket' && token.value === '[') {
+      var node = {
+        type: 'ArrayLiteral',
+        values: []
+      }
+
+      current++
+      token = tokens[current]
+
+      while (
+        token.type !== 'bracket' ||
+        (token.type === 'bracket' && token.value !== ']')
+      ) {
+        node.values.push(walk())
+        token = tokens[current]
+      }
+
+      current++
+      return node
+    }
+
+    /**
+     * Call expressions
+     */
     var nextToken = tokens[current + 1]
     if (
-      token.type === 'name' &&
+      token.type === 'paren' &&
+      token.value === '(' &&
       nextToken &&
-      nextToken.type === 'paren' &&
-      nextToken.value === '('
+      nextToken.type === 'name'
     ) {
       var node = {
         type: 'CallExpression',
         callee: {
           type: 'Identifier',
-          name: token.value
+          value: nextToken.value
         },
         arguments: []
       }
@@ -52,11 +98,37 @@ module.exports = function parser(tokens) {
       }
 
       current++
-
       return node
     }
 
-    throw new SyntaxError('Unexpected token ' + token.type)
+    /**
+     * Expressions
+     */
+    var nextToken = tokens[current + 1]
+    if (token.type === 'paren' && token.value === '(') {
+      var node = {
+        type: 'Expression',
+        body: []
+      }
+
+      current++
+      token = tokens[current]
+
+      while (
+        token.type !== 'paren' ||
+        (token.type === 'paren' && token.value !== ')')
+      ) {
+        node.body.push(walk())
+        token = tokens[current]
+      }
+
+      current++
+      return node
+    }
+
+    throw new SyntaxError(
+      'Unexpected token `' + token.type + '` on ' + token.line + ':' + token.col
+    )
   }
 
   var ast = {
