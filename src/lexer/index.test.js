@@ -11,15 +11,21 @@ describe('Lexer', it => {
     assert.deepStrictEqual(result, [
       {
         type: 'paren',
-        value: '('
+        value: '(',
+        line: 1,
+        col: 1
       },
       {
         type: 'name',
-        value: 'add'
+        value: 'add',
+        line: 1,
+        col: 2
       },
       {
         type: 'paren',
-        value: ')'
+        value: ')',
+        line: 1,
+        col: 5
       }
     ])
   })
@@ -31,19 +37,59 @@ describe('Lexer', it => {
     assert.deepStrictEqual(result, [
       {
         type: 'paren',
-        value: '('
+        value: '(',
+        line: 1,
+        col: 1
       },
       {
         type: 'name',
-        value: 'add'
+        value: 'add',
+        line: 1,
+        col: 2
       },
       {
-        type: 'int',
-        value: '42'
+        type: 'num',
+        value: '42',
+        line: 1,
+        col: 6
       },
       {
         type: 'paren',
-        value: ')'
+        value: ')',
+        line: 1,
+        col: 8
+      }
+    ])
+  })
+
+  it('(add 13.37)', () => {
+    const input = '(add 13.37)'
+
+    const result = lexer(input)
+    assert.deepStrictEqual(result, [
+      {
+        type: 'paren',
+        value: '(',
+        line: 1,
+        col: 1
+      },
+      {
+        type: 'name',
+        value: 'add',
+        line: 1,
+        col: 2
+      },
+      {
+        type: 'num',
+        value: '13.37',
+        line: 1,
+        col: 6
+      },
+      {
+        type: 'paren',
+        value: ')',
+        line: 1,
+        col: 11
       }
     ])
   })
@@ -55,19 +101,27 @@ describe('Lexer', it => {
     assert.deepStrictEqual(result, [
       {
         type: 'paren',
-        value: '('
+        value: '(',
+        line: 1,
+        col: 1
       },
       {
         type: 'name',
-        value: 'add'
+        value: 'add',
+        line: 1,
+        col: 6
       },
       {
-        type: 'int',
-        value: '42'
+        type: 'num',
+        value: '42',
+        line: 1,
+        col: 11
       },
       {
         type: 'paren',
-        value: ')'
+        value: ')',
+        line: 1,
+        col: 15
       }
     ])
   })
@@ -79,29 +133,115 @@ describe('Lexer', it => {
     assert.deepStrictEqual(result, [
       {
         type: 'paren',
-        value: '('
+        value: '(',
+        line: 1,
+        col: 1
       },
       {
         type: 'name',
-        value: 'add'
+        value: 'add',
+        line: 1,
+        col: 2
       },
       {
-        type: 'int',
-        value: '12'
+        type: 'num',
+        value: '12',
+        line: 1,
+        col: 6
       },
       {
-        type: 'int',
-        value: '30'
+        type: 'num',
+        value: '30',
+        line: 1,
+        col: 9
       },
       {
         type: 'paren',
-        value: ')'
+        value: ')',
+        line: 1,
+        col: 11
       }
     ])
   })
 
-  it('(add ~)', () => {
-    const input = '(add ~)'
+  it("(add 'foo' 'bar')", () => {
+    const input = "(add 'foo' 'bar')"
+
+    const result = lexer(input)
+    assert.deepStrictEqual(result, [
+      {
+        type: 'paren',
+        value: '(',
+        line: 1,
+        col: 1
+      },
+      {
+        type: 'name',
+        value: 'add',
+        line: 1,
+        col: 2
+      },
+      {
+        type: 'str',
+        value: 'foo',
+        line: 1,
+        col: 6
+      },
+      {
+        type: 'str',
+        value: 'bar',
+        line: 1,
+        col: 12
+      },
+      {
+        type: 'paren',
+        value: ')',
+        line: 1,
+        col: 17
+      }
+    ])
+  })
+
+  it("(add\\n  'foo'\\n  'bar')", () => {
+    const input = "(add\n  'foo'\n  'bar')"
+
+    const result = lexer(input)
+    assert.deepStrictEqual(result, [
+      {
+        type: 'paren',
+        value: '(',
+        line: 1,
+        col: 1
+      },
+      {
+        type: 'name',
+        value: 'add',
+        line: 1,
+        col: 2
+      },
+      {
+        type: 'str',
+        value: 'foo',
+        line: 2,
+        col: 3
+      },
+      {
+        type: 'str',
+        value: 'bar',
+        line: 3,
+        col: 3
+      },
+      {
+        type: 'paren',
+        value: ')',
+        line: 3,
+        col: 8
+      }
+    ])
+  })
+
+  it('throws on unexpected characters', () => {
+    const input = '~`!@#$%^&*+={}|;:,<>/?"'
 
     assert.throws(() => lexer(input))
   })
