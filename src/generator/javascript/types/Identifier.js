@@ -1,5 +1,3 @@
 'use strict'
 
-module.exports = function IdentifierGenerator(generator, context, node) {
-  return node.value
-}
+module.exports = (generator, context, node) => node.value

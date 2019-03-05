@@ -3,10 +3,10 @@
 var fs = require('fs')
 
 module.exports = {
-  isStdlib: isStdlib,
-  validator: validator,
-  generator: generator,
-  context: context
+  isStdlib,
+  validator,
+  generator,
+  context
 }
 
 var stdlib = {}
@@ -35,5 +35,5 @@ function context(identifier) {
   if (!stdlib[identifier]) {
     throw new Error('Stdlib implementation not found: ' + identifier)
   }
-  return stdlib[identifier].contextGenerator()
+  return stdlib[identifier].context()
 }

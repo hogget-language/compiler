@@ -1,20 +1,20 @@
 'use strict'
 
 module.exports = {
-  generator: IsIntStdlibGenerator,
-  contextGenerator: IsIntStdlibContextGenerator
+  generator,
+  context
 }
 
-function IsIntStdlibGenerator(generator, context, node) {
+function generator(generator, context, node) {
   if (!context.stdlib) context.stdlib = []
   context.stdlib.push('isInt')
 
   return 'isInt'
 }
 
-function IsIntStdlibContextGenerator() {
+function context() {
   return (
-    'function isInt(val) {\n' +
+    'function $isInt(val) {\n' +
     "  return typeof val === 'number' && val % 1 === 0 && isFinite(val);\n" +
     '}\n'
   )

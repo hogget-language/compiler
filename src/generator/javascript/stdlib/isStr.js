@@ -1,19 +1,19 @@
 'use strict'
 
 module.exports = {
-  generator: IsStrStdlibGenerator,
-  contextGenerator: IsStrStdlibContextGenerator
+  generator,
+  context
 }
 
-function IsStrStdlibGenerator(generator, context, node) {
+function generator(generator, context, node) {
   if (!context.stdlib) context.stdlib = []
   context.stdlib.push('isStr')
 
   return 'isStr'
 }
 
-function IsStrStdlibContextGenerator() {
+function context() {
   return (
-    'function isStr(val) {\n' + "  return typeof val === 'string';\n" + '}\n'
+    'function $isStr(val) {\n' + "  return typeof val === 'string';\n" + '}\n'
   )
 }

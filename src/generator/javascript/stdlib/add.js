@@ -1,12 +1,12 @@
 'use strict'
 
 module.exports = {
-  validator: AddStdlibValidator,
-  generator: AddStdlibGenerator,
-  contextGenerator: AddStdlibContextGenerator
+  validator,
+  generator,
+  context
 }
 
-function AddStdlibValidator(node) {
+function validator(node) {
   var args = node.arguments
   if (args.length !== 2) {
     throw new Error('add() must be called with 2 arguments')
@@ -29,7 +29,7 @@ function AddStdlibValidator(node) {
   }
 }
 
-function AddStdlibGenerator(generator, context, node) {
+function generator(generator, context, node) {
   if (!context.stdlib) context.stdlib = []
   context.stdlib.push('add')
   context.stdlib.push('type')
@@ -40,17 +40,17 @@ function AddStdlibGenerator(generator, context, node) {
   return 'add'
 }
 
-function AddStdlibContextGenerator() {
+function context() {
   return (
-    'function add(a, b) {\n' +
+    'function $add(a, b) {\n' +
     '  if (arguments.length === 2) {\n' +
-    '    if ((isInt(a) && isInt(b)) || (isDec(a) && isDec(b)) || (isStr(a) && isStr(b))) {\n' +
+    '    if (($isInt(a) && $isInt(b)) || ($isDec(a) && $isDec(b)) || ($isStr(a) && $isStr(b))) {\n' +
     '      return a + b\n' +
     '    }\n' +
-    "    throw new Error('add() must be called with equal types, received ' + type(a) + ' and ' + type(b))\n" +
+    "    throw new Error('add() must be called with equal types, received ' + $type(a) + ' and ' + $type(b))\n" +
     '  } else if (arguments.length === 1) {\n' +
     '    return function(b) {\n' +
-    '      return add(a, b)\n' +
+    '      return $add(a, b)\n' +
     '    }\n' +
     '  }\n' +
     "  throw new Error('add() must be called with either 1 or 2 arguments')\n" +

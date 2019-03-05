@@ -37,7 +37,7 @@ module.exports = function parser(tokens) {
       current++
 
       return {
-        type: 'StrLiteral',
+        type: 'StringLiteral',
         value: token.value
       }
     }

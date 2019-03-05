@@ -1,20 +1,20 @@
 'use strict'
 
 module.exports = {
-  generator: IsDecStdlibGenerator,
-  contextGenerator: IsDecStdlibContextGenerator
+  generator,
+  context
 }
 
-function IsDecStdlibGenerator(generator, context, node) {
+function generator(generator, context, node) {
   if (!context.stdlib) context.stdlib = []
   context.stdlib.push('isDec')
 
   return 'isDec'
 }
 
-function IsDecStdlibContextGenerator() {
+function context() {
   return (
-    'function isDec(val) {\n' +
+    'function $isDec(val) {\n' +
     "  return typeof val === 'number' && isFinite(val) && Math.floor(val) !== val;\n" +
     '}\n'
   )
