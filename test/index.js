@@ -118,8 +118,8 @@ function green(str) {
 }
 
 function color(str, colorCode) {
-  var open = '\u001b[' + colorCode + 'm'
-  var close = '\u001b[39m'
+  const open = '\u001b[' + colorCode + 'm'
+  const close = '\u001b[39m'
   return open + str + close
 }
 

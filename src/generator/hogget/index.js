@@ -1,44 +1,53 @@
 'use strict'
 
 module.exports = {
-  generator: generator,
-  postprocessor: postprocessor
+  generator,
+  postprocessor
 }
 
 function generator(generator, context, node) {
   switch (node.type) {
     case 'Program':
       return (
-        node.body
-          .map(function(node) {
-            return generator(generator, context, node)
-          })
-          .join('\n') + '\n'
+        node.body.map(node => generator(generator, context, node)).join('\n') +
+        '\n'
       )
 
-    case 'ExpressionStatement':
-      return generator(generator, context, node.expression) + ';\n'
+    case 'Expression':
+      return (
+        '(' +
+        node.body.map(node => generator(generator, context, node)).join(' ') +
+        ')'
+      )
 
     case 'CallExpression':
       return (
-        generator(generator, context, node.callee) +
         '(' +
+        generator(generator, context, node.callee) +
+        ' ' +
         node.arguments
-          .map(function(node) {
-            return generator(generator, context, node)
-          })
+          .map(node => generator(generator, context, node))
           .join(' ') +
         ')'
       )
 
     case 'Identifier':
-      return node.name
-
-    case 'IntLiteral':
       return node.value
 
-    case 'StrLiteral':
+    case 'NumberLiteral':
+      return node.value
+
+    case 'StringLiteral':
       return "'" + node.value + "'"
+
+    case 'ArrayLiteral':
+      return (
+        '[' +
+        node.values
+          .map(node => generator(generator, context, node))
+          .join(', ') +
+        ']'
+      )
 
     default:
       throw new Error('Unknown AST node type: ' + node.type)

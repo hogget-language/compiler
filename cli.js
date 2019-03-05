@@ -2,12 +2,12 @@
 
 'use strict'
 
-var hogget = require('./index')
-var pkg = require('./package.json')
-var fs = require('fs')
-var EOL = require('os').EOL
-var argv = process.argv
-var log = function(str) {
+const hogget = require('./index')
+const pkg = require('./package.json')
+const fs = require('fs')
+const EOL = require('os').EOL
+const argv = process.argv
+const log = function(str) {
   return process.stdout.write(str + EOL)
 }
 
@@ -20,7 +20,7 @@ if (hasArg(argv, ['--version', '-v'])) {
 log('Hogget, version ' + pkg.version)
 
 // Determine mode
-var mode = 'compile'
+let mode = 'compile'
 if (hasArg(argv, ['--evaluate', '-e'])) {
   mode = 'evaluate'
 } else if (
@@ -35,12 +35,12 @@ if (hasArg(argv, ['--evaluate', '-e'])) {
   mode = 'format'
 }
 
-var inputArg = getArgValue(argv, ['--input', '-i'])
+const inputArg = getArgValue(argv, ['--input', '-i'])
 if (!inputArg) {
   log('Error: No input file specified!')
   process.exit(1)
 }
-var input = fs.readFileSync(inputArg, 'utf8')
+const input = fs.readFileSync(inputArg, 'utf8')
 
 // Run mode
 switch (mode) {
@@ -60,7 +60,7 @@ switch (mode) {
 
   case 'evaluate':
     log(' evaluating as child process')
-    var node = hogget.evaluate(input)
+    const node = hogget.evaluate(input)
     node.on('exit', function(code) {
       process.exit(code)
     })
@@ -68,7 +68,7 @@ switch (mode) {
 
   case 'lint':
     log(' linting: ' + inputArg)
-    var errors = hogget.lint(input)
+    const errors = hogget.lint(input)
 
     if (errors.length) {
       errors.forEach(error => log('[' + error.code + '] ' + error.title))
@@ -99,7 +99,7 @@ switch (mode) {
  * @returns {Boolean}
  */
 function hasArg(argv, searchArgs) {
-  for (var i = 0; i < argv.length; i++) {
+  for (let i = 0; i < argv.length; i++) {
     if (searchArgs.indexOf(argv[i]) !== -1) {
       return true
     }
@@ -113,8 +113,8 @@ function hasArg(argv, searchArgs) {
  * @returns {String}
  */
 function getArgValue(argv, searchArgs) {
-  var position = false
-  for (var i = 0; i < argv.length; i++) {
+  let position = false
+  for (let i = 0; i < argv.length; i++) {
     if (searchArgs.indexOf(argv[i]) !== -1) {
       position = i
       break

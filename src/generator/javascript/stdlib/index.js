@@ -1,6 +1,6 @@
 'use strict'
 
-var fs = require('fs')
+const fs = require('fs')
 
 module.exports = {
   isStdlib,
@@ -9,7 +9,7 @@ module.exports = {
   context
 }
 
-var stdlib = {}
+const stdlib = {}
 fs.readdirSync(__dirname).forEach(function(file) {
   if (file === 'index.js') return
   if (file.substring(file.length - 3) === '.js') {

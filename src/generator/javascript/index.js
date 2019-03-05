@@ -1,19 +1,21 @@
 'use strict'
 
-var fs = require('fs')
-var stdlib = require('./stdlib')
+const fs = require('fs')
+const stdlib = require('./stdlib')
 
 module.exports = {
   generator: generator,
   postprocessor: postprocessor
 }
 
-var types = {}
+const types = {}
 fs.readdirSync(__dirname + '/types').forEach(function(file) {
   if (file.substring(file.length - 3) === '.js') {
     types[file.substring(0, file.length - 3)] = require('./types/' + file)
   }
 })
+console.log(types)
+process.exit()
 
 function generator(generator, context, node) {
   if (!types[node.type]) {
@@ -26,7 +28,7 @@ function postprocessor(context, str) {
   if (!context.stdlib.length) return str
 
   // Generate stdlib implementations
-  var stdlibStr = context.stdlib
+  const stdlibStr = context.stdlib
     .reduce(function unique(acc, curr) {
       if (acc.indexOf(curr) === -1) acc.push(curr)
       return acc

@@ -13,7 +13,7 @@ module.exports = function generator(target, ast) {
       throw new Error('Unknown target: ' + target)
   }
 
-  var context = {}
-  var output = generator.generator(generator.generator, context, ast)
+  const context = {}
+  const output = generator.generator(generator.generator, context, ast)
   return generator.postprocessor(context, output)
 }

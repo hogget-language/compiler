@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = function linter(ast) {
-  var errors = []
+  const errors = []
 
   return errors
 }

@@ -1,9 +1,9 @@
 'use strict'
 
-var stdlib = require('../stdlib')
+const stdlib = require('../stdlib')
 
 module.exports = function generator(generator, context, node) {
-  var identifier
+  let identifier
   if (stdlib.isStdlib(node.callee)) {
     identifier = '$' + stdlib.generator(generator, context, node.callee)
     stdlib.validator(node)

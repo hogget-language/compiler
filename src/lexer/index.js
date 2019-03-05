@@ -1,13 +1,13 @@
 'use strict'
 
 module.exports = function lexer(input) {
-  var line = 1
-  var col = 1
-  var current = 0
-  var tokens = []
+  let line = 1
+  let col = 1
+  let current = 0
+  const tokens = []
 
   while (current < input.length) {
-    var char = input[current]
+    let char = input[current]
 
     /**
      * Parens: ()
@@ -72,7 +72,7 @@ module.exports = function lexer(input) {
     /**
      * Whitespace
      */
-    var WHITESPACE = /\s/
+    const WHITESPACE = /\s/
     if (WHITESPACE.test(char)) {
       current++, col++
       continue
@@ -81,9 +81,9 @@ module.exports = function lexer(input) {
     /**
      * Number
      */
-    var NUMBERS = /[0-9]/
+    const NUMBERS = /[0-9]/
     if (NUMBERS.test(char)) {
-      var value = ''
+      let value = ''
 
       while (/[0-9\.]/.test(char)) {
         value += char
@@ -109,7 +109,7 @@ module.exports = function lexer(input) {
      * Strings
      */
     if (char === "'") {
-      var value = ''
+      let value = ''
 
       char = input[++current]
 
@@ -134,9 +134,9 @@ module.exports = function lexer(input) {
     /**
      * Names
      */
-    var LETTERS = /[a-z]/i
+    const LETTERS = /[a-z]/i
     if (LETTERS.test(char)) {
-      var value = ''
+      let value = ''
 
       while (LETTERS.test(char)) {
         value += char

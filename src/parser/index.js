@@ -1,10 +1,11 @@
 'use strict'
 
 module.exports = function parser(tokens) {
-  var current = 0
+  let current = 0
 
   function walk() {
-    var token = tokens[current]
+    let token = tokens[current]
+    let nextToken = tokens[current + 1]
 
     /**
      * Name
@@ -45,9 +46,8 @@ module.exports = function parser(tokens) {
     /**
      * Arrays
      */
-    var nextToken = tokens[current + 1]
     if (token.type === 'bracket' && token.value === '[') {
-      var node = {
+      const node = {
         type: 'ArrayLiteral',
         values: []
       }
@@ -70,14 +70,13 @@ module.exports = function parser(tokens) {
     /**
      * Call expressions
      */
-    var nextToken = tokens[current + 1]
     if (
       token.type === 'paren' &&
       token.value === '(' &&
       nextToken &&
       nextToken.type === 'name'
     ) {
-      var node = {
+      const node = {
         type: 'CallExpression',
         callee: {
           type: 'Identifier',
@@ -104,9 +103,8 @@ module.exports = function parser(tokens) {
     /**
      * Expressions
      */
-    var nextToken = tokens[current + 1]
     if (token.type === 'paren' && token.value === '(') {
-      var node = {
+      const node = {
         type: 'Expression',
         body: []
       }
@@ -131,7 +129,7 @@ module.exports = function parser(tokens) {
     )
   }
 
-  var ast = {
+  const ast = {
     type: 'Program',
     body: []
   }

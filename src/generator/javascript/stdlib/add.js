@@ -7,7 +7,7 @@ module.exports = {
 }
 
 function validator(node) {
-  var args = node.arguments
+  const args = node.arguments
   if (args.length !== 2) {
     throw new Error('add() must be called with 2 arguments')
   }

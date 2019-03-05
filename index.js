@@ -1,11 +1,11 @@
 'use strict'
 
-var lexer = require('./src/lexer')
-var parser = require('./src/parser')
-var linter = require('./src/linter')
-var transformer = require('./src/transformer')
-var generator = require('./src/generator')
-var evaluator = require('./src/evaluator')
+const lexer = require('./src/lexer')
+const parser = require('./src/parser')
+const linter = require('./src/linter')
+const transformer = require('./src/transformer')
+const generator = require('./src/generator')
+const evaluator = require('./src/evaluator')
 
 module.exports = {
   default: compile,
@@ -17,32 +17,32 @@ module.exports = {
 }
 
 function parse(input) {
-  var tokens = lexer(input)
-  var ast = parser(tokens)
+  const tokens = lexer(input)
+  const ast = parser(tokens)
   return ast
 }
 
 function compile(input) {
-  var ast = parse(input)
-  var newAst = transformer('javascript', ast)
-  var output = generator('javascript', newAst)
+  const ast = parse(input)
+  const newAst = transformer('javascript', ast)
+  const output = generator('javascript', newAst)
   return output
 }
 
 function evaluate(input) {
-  var output = compile(input)
-  var node = evaluator(output)
+  const output = compile(input)
+  const node = evaluator(output)
   return node
 }
 
 function lint(input) {
-  var ast = parse(input)
-  var errors = linter(ast)
+  const ast = parse(input)
+  const errors = linter(ast)
   return errors
 }
 
 function format(input) {
-  var ast = parse(input)
-  var output = generator('hogget', ast)
+  const ast = parse(input)
+  const output = generator('hogget', ast)
   return output
 }
