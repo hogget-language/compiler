@@ -16,5 +16,6 @@ function recursiveScanDir(dir, filter) {
 
     if (filter(path)) return files.push(path)
   })
+
   return files
 }

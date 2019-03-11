@@ -1,6 +1,7 @@
 'use strict'
 
-const fs = require('fs')
+const basename = require('path').basename
+const recursiveScanDir = require('../../util/fs').recursiveScanDir
 const stdlib = require('./stdlib')
 
 module.exports = {
@@ -9,10 +10,12 @@ module.exports = {
 }
 
 const types = {}
-fs.readdirSync(__dirname + '/types').forEach(function(file) {
-  if (file.substring(file.length - 3) === '.js') {
-    types[file.substring(0, file.length - 3)] = require('./types/' + file)
-  }
+recursiveScanDir(`${__dirname}/types`, file => {
+  if (file.substring(file.length - 3) !== '.js') return false
+  return true
+}).forEach(file => {
+  const filename = basename(file)
+  types[filename.substring(0, filename.length - 3)] = require(file)
 })
 
 function generator(generator, context, node) {
@@ -23,7 +26,7 @@ function generator(generator, context, node) {
 }
 
 function postprocessor(context, str) {
-  if (!context.stdlib.length) return str
+  if (!context.stdlib || !context.stdlib.length) return str
 
   // Generate stdlib implementations
   const stdlibStr = context.stdlib

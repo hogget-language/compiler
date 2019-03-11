@@ -1,6 +1,7 @@
 'use strict'
 
-const fs = require('fs')
+const resolve = require('path').resolve
+const recursiveScanDir = require('../../../util/fs').recursiveScanDir
 
 module.exports = {
   isStdlib,
@@ -10,12 +11,13 @@ module.exports = {
 }
 
 const stdlib = {}
-fs.readdirSync(__dirname).forEach(function(file) {
-  if (file === 'index.js') return
-  if (file.substring(file.length - 3) === '.js') {
-    const mod = require('./' + file)
-    stdlib[mod.identifier] = mod
-  }
+recursiveScanDir(__dirname, file => {
+  if (resolve(file) === __filename) return false
+  if (file.substring(file.length - 3) !== '.js') return false
+  return true
+}).forEach(file => {
+  const mod = require(file)
+  stdlib[mod.identifier] = mod
 })
 
 function isStdlib(node) {
