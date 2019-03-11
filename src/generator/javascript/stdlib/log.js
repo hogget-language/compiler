@@ -1,8 +1,9 @@
 'use strict'
 
 module.exports = {
+  identifier: 'log',
   generator,
-  context
+  render
 }
 
 function generator(generator, context, node) {
@@ -12,7 +13,7 @@ function generator(generator, context, node) {
   return 'log'
 }
 
-function context() {
+function render() {
   return (
     'function $log() {\n' +
     "  var str = '';\n" +

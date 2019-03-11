@@ -6,14 +6,15 @@ module.exports = {
   isStdlib,
   validator,
   generator,
-  context
+  render
 }
 
 const stdlib = {}
 fs.readdirSync(__dirname).forEach(function(file) {
   if (file === 'index.js') return
   if (file.substring(file.length - 3) === '.js') {
-    stdlib[file.substring(0, file.length - 3)] = require('./' + file)
+    const mod = require('./' + file)
+    stdlib[mod.identifier] = mod
   }
 })
 
@@ -31,9 +32,9 @@ function generator(generator, context, node) {
   return stdlib[node.value].generator(generator, context, node)
 }
 
-function context(identifier) {
+function render(identifier) {
   if (!stdlib[identifier]) {
     throw new Error('Stdlib implementation not found: ' + identifier)
   }
-  return stdlib[identifier].context()
+  return stdlib[identifier].render()
 }

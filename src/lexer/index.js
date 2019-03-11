@@ -134,7 +134,7 @@ module.exports = function lexer(input) {
     /**
      * Names
      */
-    const LETTERS = /[a-z]/i
+    const LETTERS = /[a-z\+\-\*\/]/i
     if (LETTERS.test(char)) {
       let value = ''
 

@@ -4,8 +4,8 @@ const fs = require('fs')
 const stdlib = require('./stdlib')
 
 module.exports = {
-  generator: generator,
-  postprocessor: postprocessor
+  generator,
+  postprocessor
 }
 
 const types = {}
@@ -14,8 +14,6 @@ fs.readdirSync(__dirname + '/types').forEach(function(file) {
     types[file.substring(0, file.length - 3)] = require('./types/' + file)
   }
 })
-console.log(types)
-process.exit()
 
 function generator(generator, context, node) {
   if (!types[node.type]) {
@@ -29,15 +27,16 @@ function postprocessor(context, str) {
 
   // Generate stdlib implementations
   const stdlibStr = context.stdlib
-    .reduce(function unique(acc, curr) {
-      if (acc.indexOf(curr) === -1) acc.push(curr)
-      return acc
-    }, [])
-    .map(function(identifier) {
-      return stdlib.context(identifier)
-    })
+    .reduce(unique, [])
+    .sort()
+    .map(identifier => stdlib.render(identifier))
     .join('')
 
   // Prepend stdlib implementations
   return stdlibStr + str
+}
+
+function unique(acc, curr) {
+  if (acc.indexOf(curr) === -1) acc.push(curr)
+  return acc
 }
