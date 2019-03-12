@@ -1,9 +1,11 @@
 'use strict'
 
+const readFile = file => require('fs').readFileSync(file, 'utf8')
+
 module.exports = {
   identifier: 'isArray',
   generator,
-  render
+  render: () => readFile(`${__dirname}/tpl.js`)
 }
 
 function generator(generator, context, node) {
@@ -11,8 +13,4 @@ function generator(generator, context, node) {
   context.stdlib.push('isArray')
 
   return 'isArray'
-}
-
-function render() {
-  return 'function $isArray(val) {\n' + '  return Array.isArray(val);\n' + '}\n'
 }

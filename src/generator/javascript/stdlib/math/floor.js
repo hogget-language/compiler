@@ -1,10 +1,12 @@
 'use strict'
 
+const readFile = file => require('fs').readFileSync(file, 'utf8')
+
 module.exports = {
   identifier: 'floor',
   validator,
   generator,
-  render
+  render: () => readFile(`${__dirname}/tpl.js`)
 }
 
 function validator(node) {
@@ -16,19 +18,8 @@ function validator(node) {
 
 function generator(generator, context, node) {
   if (!context.stdlib) context.stdlib = []
-  context.stdlib.push('type')
+  context.stdlib.push('floor')
   context.stdlib.push('isNumber')
 
   return 'floor'
-}
-
-function render() {
-  return (
-    'function $floor(val) {\n' +
-    '  if (arguments.length === 1 && $isNumber(val)) {\n' +
-    '    return Math.floor(val);\n' +
-    '  }\n' +
-    "  throw new Error('`+` must be called with 1 argument');\n" +
-    '}\n'
-  )
 }

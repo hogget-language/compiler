@@ -1,9 +1,11 @@
 'use strict'
 
+const readFile = file => require('fs').readFileSync(file, 'utf8')
+
 module.exports = {
   identifier: 'type',
   generator,
-  render
+  render: () => readFile(`${__dirname}/tpl.js`)
 }
 
 function generator(generator, context, node) {
@@ -13,14 +15,4 @@ function generator(generator, context, node) {
   context.stdlib.push('isString')
 
   return 'type'
-}
-
-function render() {
-  return (
-    'function $type(val) {\n' +
-    "  if ($isNumber(val)) return 'number';\n" +
-    "  if ($isString(val)) return 'string';\n" +
-    "  throw new Error('Unexpected type: ' + typeof val);\n" +
-    '}\n'
-  )
 }

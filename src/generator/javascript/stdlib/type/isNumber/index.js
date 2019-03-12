@@ -1,9 +1,11 @@
 'use strict'
 
+const readFile = file => require('fs').readFileSync(file, 'utf8')
+
 module.exports = {
   identifier: 'isNumber',
   generator,
-  render
+  render: () => readFile(`${__dirname}/tpl.js`)
 }
 
 function generator(generator, context, node) {
@@ -11,12 +13,4 @@ function generator(generator, context, node) {
   context.stdlib.push('isNumber')
 
   return 'isNumber'
-}
-
-function render() {
-  return (
-    'function $isNumber(val) {\n' +
-    "  return typeof val === 'number' && isFinite(val);\n" +
-    '}\n'
-  )
 }

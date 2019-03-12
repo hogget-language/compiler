@@ -10,6 +10,7 @@ module.exports = {
 
 function generator(generator, context, node) {
   if (!context.stdlib) context.stdlib = []
+  context.stdlib.push('/')
   context.stdlib.push('type')
   context.stdlib.push('isNumber')
 

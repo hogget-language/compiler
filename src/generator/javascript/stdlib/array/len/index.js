@@ -1,10 +1,12 @@
 'use strict'
 
+const readFile = file => require('fs').readFileSync(file, 'utf8')
+
 module.exports = {
   identifier: 'len',
   validator,
   generator,
-  render
+  render: () => readFile(`${__dirname}/tpl.js`)
 }
 
 function validator(node) {
@@ -19,8 +21,4 @@ function generator(generator, context, node) {
   context.stdlib.push('len')
 
   return 'len'
-}
-
-function render() {
-  return 'function $len(val) {\n' + '  return val.length;\n' + '}\n'
 }
