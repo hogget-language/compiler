@@ -20,7 +20,6 @@ recursiveScanDir(__dirname, file => {
   const mod = require(file)
   if (!mod.identifier) return
   stdlib[mod.identifier] = mod
-  stdlib[mod.identifier].file = file
 })
 
 function isStdlib(node) {
