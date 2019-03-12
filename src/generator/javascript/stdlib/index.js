@@ -14,10 +14,13 @@ const stdlib = {}
 recursiveScanDir(__dirname, file => {
   if (resolve(file) === __filename) return false
   if (file.substring(file.length - 3) !== '.js') return false
+  if (file.substring(file.length - 6) === 'tpl.js') return false
   return true
 }).forEach(file => {
   const mod = require(file)
+  if (!mod.identifier) return
   stdlib[mod.identifier] = mod
+  stdlib[mod.identifier].file = file
 })
 
 function isStdlib(node) {
