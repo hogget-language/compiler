@@ -1,5 +1,11 @@
 'use strict'
 
+const NEWLINE = '\n'
+const WHITESPACE = /\s/
+const NUMBERS_START = /[0-9]/
+const NUMBERS = /[0-9\.]/
+const LETTERS = /[a-z\+\-\*\/\<\>\=]/i
+
 module.exports = function lexer(input) {
   let line = 1
   let col = 1
@@ -64,7 +70,7 @@ module.exports = function lexer(input) {
     /**
      * Newlines
      */
-    if (char === '\n') {
+    if (char === NEWLINE) {
       current++, line++, (col = 1)
       continue
     }
@@ -72,20 +78,33 @@ module.exports = function lexer(input) {
     /**
      * Whitespace
      */
-    const WHITESPACE = /\s/
     if (WHITESPACE.test(char)) {
       current++, col++
       continue
     }
 
     /**
+     * Comments
+     */
+    if (char === ';') {
+      char = input[++current]
+      while (char !== NEWLINE) {
+        char = input[++current]
+      }
+
+      char = input[++current]
+
+      line++, (col = 1)
+      continue
+    }
+
+    /**
      * Number
      */
-    const NUMBERS = /[0-9]/
-    if (NUMBERS.test(char)) {
+    if (NUMBERS_START.test(char)) {
       let value = ''
 
-      while (/[0-9\.]/.test(char)) {
+      while (NUMBERS.test(char)) {
         value += char
         char = input[++current]
       }
@@ -134,7 +153,6 @@ module.exports = function lexer(input) {
     /**
      * Names
      */
-    const LETTERS = /[a-z\+\-\*\/]/i
     if (LETTERS.test(char)) {
       let value = ''
 
